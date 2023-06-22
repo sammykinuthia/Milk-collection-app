@@ -1,0 +1,42 @@
+{% extends "_base.html" %} {% block content %}
+
+<h1 class="mb-6 text-3xl text-green-800">Daily Milk Collection</h1>
+
+<form id="customerSearchform" method="post">
+  {% csrf_token %}
+  <label>
+    <span>Customer</span>
+    <input
+      id="customerSearch"
+      name="name"
+      placeholder="customer name"
+      class="input-field inline-block"
+      type="text"
+    />
+  </label>
+  <p id="user-error" class="text-red-600"></p>
+  {% if error %}
+  <p class="text-red-600">{{error}}</p>
+  {% endif %}
+  <div id="user" class="mt-4 w-full shadow-lg bg-green-100 py-1 px-4">
+    <div class="flex items-center justify-between">
+      <p id="username" class="font-bold"></p>
+      <p id="phone" class="text-sm text-gray-400"></p>
+    </div>
+    <p id="address" class="text-xm text-gray-300"></p>
+  </div>
+</form>
+<form id="milk-amount" class="mt-4" id action="" method="post">
+  {% csrf_token %}
+  <label class="flex gap-4 w-full">
+    <input class="input-field" id="amount-input" name="quantity" type="text" />
+    <input id="customer" hidden name="customer" type="number" />
+    <input
+      type="submit"
+      class="btn-primary cursor-pointer disabled disabled:cursor-none disabled:bg-gray-300"
+      value="save"
+    />
+  </label>
+</form>
+
+{% endblock content %}
