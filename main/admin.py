@@ -1,9 +1,21 @@
 from django.contrib import admin
-from .models import Customer, Milk, MilkPricing, MpesaAuth, MpesaPayment
+from .models import Customer, Milk, MilkPricing, MpesaPayment
+from django_daraja.mpesa.core import MpesaClient
+
 
 
 # payment function
-
+def pay_customers(customers, amounts):
+    cl = MpesaClient()
+    phone_number = '0790360980'
+    amount = 1
+    account_reference = 'reference'
+    transaction_desc = 'Description'
+    callback_url = 'https://9402-2c0f-fe38-2401-f86f-f40e-186c-569-1717.ngrok-free.app/daraja/callback'
+    # callback_url = 'https://api.darajambili.com/express-payment'
+    response = cl.stk_push(phone_number, amount,
+                                   account_reference, transaction_desc, callback_url)
+    return response
 
 # actions
 
@@ -21,6 +33,17 @@ def makepayment(Modeladmin, request, queryset):
             amount[i] += x.price
 
     # print(amount)
+    cl = MpesaClient()
+    phone_number = '0790360980'
+    amount = 1
+    account_reference = 'reference'
+    transaction_desc = 'Description'
+    callback_url = 'https://9402-2c0f-fe38-2401-f86f-f40e-186c-569-1717.ngrok-free.app/daraja/callback'
+    # callback_url = 'https://api.darajambili.com/express-payment'
+    response = cl.stk_push(phone_number, amount,
+                           account_reference, transaction_desc, callback_url)
+    print(response)
+    
 
 
 @admin.action(description="Mark as Inactive")
@@ -54,10 +77,6 @@ class MilkPricingAdmin(admin.ModelAdmin):
     list_display = ('date', 'buying_price')
     fields = ['buying_price']
 
-
-@admin.register(MpesaAuth)
-class MpesaAuthAdmin(admin.ModelAdmin):
-    list_display = ['initiation_time', 'expiration_time', 'token']
 
 
 admin.site.register(Customer, CustomerAdmin)

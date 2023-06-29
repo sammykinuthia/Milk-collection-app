@@ -34,10 +34,6 @@ class Milk(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
 
-class MpesaAuth(models.Model):
-    initiation_time = models.DateTimeField(auto_now=True)
-    token = models.CharField(max_length=20)
-    expiration_time = models.DateTimeField(auto_now=True)
 
 
 class BaseModel(models.Model):
@@ -74,14 +70,11 @@ class MpesaCallBacks(BaseModel):
 
 class MpesaPayment(BaseModel):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
-    type = models.TextField()
-    reference = models.TextField()
-    first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.TextField()
-    organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    transaction_date = models.DateTimeField()
+    merchant_request_id = models.CharField(max_length=100)
+    checkout_request_id = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
+    receipt_number = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = 'Mpesa Payment'
